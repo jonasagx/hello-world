@@ -42,3 +42,6 @@ workflows:
   say-hello-workflow:
     jobs:
       - say-hello
+  local_image_scan-wf:
+    jobs:
+      - local_image_scan
