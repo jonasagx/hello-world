@@ -30,8 +30,8 @@ jobs:
       - run:
           name: build container
           command: docker build -t "${CIRCLE_PROJECT_REPONAME}:ci" -f Dockerfile .
-        - anchore/analyze_local_image:
-            image_name: ${CIRCLE_PROJECT_REPONAME}:ci
+      - anchore/analyze_local_image:
+          image_name: ${CIRCLE_PROJECT_REPONAME}:ci
       - anchore/parse_reports
       - store_artifacts:
         path: anchore-reports
