@@ -3,7 +3,7 @@
 version: 2.1
 
 orbs:
-  anchore: anchore/anchore-engine@<<pipeline.parameters.dev-orb-version>>
+  anchore: anchore/anchore-engine@dev:alpha
   orb-tools: circleci/orb-tools@10.1.0
 
 # Define a job to be invoked later in a workflow.
