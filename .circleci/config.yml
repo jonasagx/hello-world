@@ -2,6 +2,10 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+orbs:
+  anchore: anchore/anchore-engine@<<pipeline.parameters.dev-orb-version>>
+  orb-tools: circleci/orb-tools@10.1.0
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -17,6 +21,20 @@ jobs:
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
+
+  local_image_scan:
+    executor: anchore/anchore_engine
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: build container
+          command: docker build -t "${CIRCLE_PROJECT_REPONAME}:ci" -f Dockerfile .
+        - anchore/analyze_local_image:
+            image_name: ${CIRCLE_PROJECT_REPONAME}:ci
+      - anchore/parse_reports
+      - store_artifacts:
+        path: anchore-reports
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
