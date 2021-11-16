@@ -29,7 +29,8 @@ jobs:
       - checkout
       - run:
           name: build container
-          command: docker build -t "${CIRCLE_PROJECT_REPONAME}:ci" -f Dockerfile .
+          command: |
+            docker build -t "${CIRCLE_PROJECT_REPONAME}:ci" -f Dockerfile .
       - anchore/analyze_local_image:
           image_name: ${CIRCLE_PROJECT_REPONAME}:ci
       - anchore/parse_reports
@@ -42,6 +43,6 @@ workflows:
   say-hello-workflow:
     jobs:
       - say-hello
-  local_image_scan-wf:
+  local-image-scan-wf:
     jobs:
       - local_image_scan
