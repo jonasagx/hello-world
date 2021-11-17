@@ -1,6 +1,6 @@
-FROM node@latest
+FROM node:lts-alpine3.14
 
-RUN mkdir -p /home/node/ && apt-get update && apt-get -y install curl
+# RUN mkdir -p /home/node/ && apt-get update && apt-get -y install curl
 COPY ./app/ /home/node/app/
 
 # DEV NOTE: remember to re-enable healthcheck and remove debugging port 22 before final push!

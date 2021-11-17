@@ -22,10 +22,13 @@ jobs:
       - setup_remote_docker
       - checkout
       - run:
-          name: build container
-          command: |
-            "ls"
-            "pwd"
+        name: build container
+        command: docker build -t "${CIRCLE_PROJECT_REPONAME}:ci" -f Dockerfile .
+      - anchore/analyze_local_image:
+          image_name: ${CIRCLE_PROJECT_REPONAME}:ci
+      - anchore/parse_reports
+      - store_artifacts:
+        path: anchore-reports
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
